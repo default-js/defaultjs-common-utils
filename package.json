@@ -1,7 +1,7 @@
 {
-  "name": "defaultjs-common-utils",
+  "name": "@default-js/defaultjs-common-utils",
   "version": "0.3.0",
-  "description": "",
+  "description": "common utils for javascript",
   "main": "./index.js",
   "scripts": {
     "build": "npm test && webpack --config webpack.prod.js && webpack --config webpack.dev.js",
@@ -10,7 +10,7 @@
     "karma:integration": "karma start karma.integration.js",
     "test": "npm run karma:integration"
   },
-  "keywords": [],
+  "keywords": ["defaultjs", "common", "utils"],
   "author": "Frank Schüler",
   "license": "MIT",
   "devDependencies": {
