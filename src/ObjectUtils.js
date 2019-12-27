@@ -36,7 +36,9 @@ const isPojo = function(aObject){
 }
 
 /**
- * merging object into a target object. 
+ * merging object into a target object. Its only merge simple object and sub objects. Every other 
+ * value would be replaced by value from the source object.
+ * 
  * sample: merge(target, source-1, source-2, ...source-n)
  * 
  * @param aTarget:object the target object to merging into
@@ -48,8 +50,8 @@ const merge = function(aTarget){
 	for(let i = 1; i < arguments.length; i++){
 		const source = arguments[i];
 		Object.getOwnPropertyNames(source).forEach(function(aKey){
-			if(isObject(aTarget[aKey]))
-				updateObject(aTarget[aKey], source[aKey]);
+			if(isPojo(aTarget[aKey]))
+				merge(aTarget[aKey], source[aKey]);
 			else
 				aTarget[aKey] = source[aKey];
 		});
