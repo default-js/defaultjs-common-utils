@@ -1,0 +1,2 @@
+import "./IsPojoTest";
+import "./AppendTest";
