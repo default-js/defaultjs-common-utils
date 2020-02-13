@@ -10,11 +10,11 @@
  */
 const append = function(aKey, aData, aObject){
 	if(typeof aData !== "undefined"){		
-		let key = aKey.toLowerCase().trim();	
+		const key = aKey.toLowerCase().trim();	
 		if(typeof aObject[key] === "undefined")
 			aObject[key] = aData;
 		else{		
-			let data = aObject[key];
+			const data = aObject[key];
 			if(data instanceof Array)
 				data.push(aData);
 			else
@@ -49,7 +49,7 @@ const isPojo = function(aObject){
 const merge = function(aTarget){	
 	for(let i = 1; i < arguments.length; i++){
 		const source = arguments[i];
-		Object.getOwnPropertyNames(source).forEach(function(aKey){
+		Object.getOwnPropertyNames(source).forEach(aKey => {
 			if(isPojo(aTarget[aKey]))
 				merge(aTarget[aKey], source[aKey]);
 			else

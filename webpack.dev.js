@@ -11,17 +11,17 @@ module.exports = merge(common, {
     },
     devtool : 'inline-source-map',   
     output : {
-	    filename : project.name + '.js',
+	    filename : project.buildname + '.js',
         path : path.resolve(__dirname, 'dist')
-    }, plugins : [ new ReplaceInFileWebpackPlugin([ 
-		{
-	        dir : 'dist',
-	        test : [ /\.js$/],
-	        rules : [ {
+    },
+    plugins : [ new ReplaceInFileWebpackPlugin([ 
+    	{
+        	dir : 'dist',
+        	test : [ /\.js$/ ],
+	        rules : [{
 	            search : /\$\{version\}/ig,
-	            replace :  project.version
+	            replace : project.version
 	        }]
-		} 
-	]) 
-]
+    	}]) 
+    ]
 });

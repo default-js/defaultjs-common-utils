@@ -8,7 +8,7 @@ module.exports = function(config) {
 	config.set(merge(common, {
 		webpack : webpackconf,
 		logLevel : config.LOG_INFO,
-		browsers : [ 'Firefox', 'Chrome'/*, 'Safari'*/, 'ChromeHeadless' ],
+		browsers : [ /*'Firefox',*/ 'Chrome'/*, 'Safari', 'ChromeHeadless'*/ ],
 		autoWatch : true,
 		singleRun : false,
 		concurrency : Infinity

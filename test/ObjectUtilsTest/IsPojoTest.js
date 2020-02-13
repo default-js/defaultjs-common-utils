@@ -7,19 +7,26 @@ describe("ObjectUtils isPojo Tests", function() {
 	});
 	
 	
-	it("isPojo({}) == true", function(done){
+	
+	
+	it("isPojo({}) == true", function(){
 		expect(ObjectUtils.isPojo({})).toBe(true);
-		done();
 	});	
 	
-	it("isPojo([]) == false", function(done){
+	it("isPojo([]) == false", function(){
 		expect(ObjectUtils.isPojo([])).toBe(false);
-		done();
 	});
 	
-	it("isPojo(new Map()) == false", function(done){
+	it("isPojo(new Map()) == false", function(){
 		expect(ObjectUtils.isPojo(new Map())).toBe(false);
-		done();
+	});	
+	
+	it("isPojo(new Class()) == false", function(){
+		const Class = class {
+			constructor(){}
+		};
+		
+		expect(ObjectUtils.isPojo(new Class())).toBe(false);
 	});	
 	
 	

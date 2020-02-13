@@ -1,10 +1,11 @@
 import pack from "./src"
+import GLOBAL from "./src/Global";
 
-const global = window || global || self || this || {};
-global.defaultjs = global.defaultjs || {};
-global.defaultjs.common = global.defaultjs.common || {};
-global.defaultjs.common = global.defaultjs.common.utils || {};
-global.defaultjs.common.utils = global.defaultjs.common.utils || (function(){
+
+GLOBAL.defaultjs = GLOBAL.defaultjs || {};
+GLOBAL.defaultjs.common = GLOBAL.defaultjs.common || {};
+GLOBAL.defaultjs.common = GLOBAL.defaultjs.common.utils || {};
+GLOBAL.defaultjs.common.utils = GLOBAL.defaultjs.common.utils || (() => {
 	pack.VERSION = "${version}";
 	
 	return pack;

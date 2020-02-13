@@ -1,5 +1,4 @@
 const path = require('path');
-const webpackconf = require("./webpack.prod.js")
 
 module.exports = {
 	// base path that will be used to resolve all patterns (eg. files,
@@ -9,15 +8,9 @@ module.exports = {
 	// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 	frameworks : [ "jasmine" ],
 	// list of files / patterns to load in the browser
-	files : [
-		"src/**/*.js",
-		"test/index.js",
-		"test/sites/**/*.html" 
-	],
+	files : ["src/**/*.js", "test/index.js", "test/sites/**/*.html" ],
 	// list of files / patterns to exclude
-	exclude : [
-		//"node_modules/*"
-	],
+	exclude : [],
 	// available preprocessors:
 	// https://npmjs.org/browse/keyword/karma-preprocessor
 	preprocessors : {
