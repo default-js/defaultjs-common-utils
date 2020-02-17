@@ -1,20 +1,24 @@
 {
   "name": "@default-js/defaultjs-common-utils",
   "buildname": "defaultjs-common-utils",
-  "version": "0.4.0",
-  "description": "common utils for javascript",
+  "version": "0.5.0",
+  "description": "common utils for javascript. Utils to get the global scope (browser, webworker & co.). Customizable string escaper. Utilitize for objects.",
   "main": "./index.js",
   "scripts": {
     "build": "npm test && webpack --config webpack.prod.js && webpack --config webpack.dev.js",
     "dev-server": "webpack-dev-server --open --config webpack.dev-server.js && npm run karma:live",
+    "karma:dev": "karma start karma.dev.js",
     "karma:live": "karma start karma.live-dev.js",
     "karma:integration": "karma start karma.integration.js",
-    "test": "npm run karma:integration"
+    "test": "npm run karma:integration",
+    "dev:test": "npm run karma:dev"
   },
   "keywords": [
     "defaultjs",
     "common",
-    "utils"
+    "utils",
+    "object helper",
+    "string escaper"
   ],
   "author": "Frank Schüler",
   "license": "MIT",
