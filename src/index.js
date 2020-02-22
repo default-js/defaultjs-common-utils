@@ -1,3 +1,4 @@
+import "./javascript";
 import ObjectUtils from "./ObjectUtils";
 import GLOBAL from "./Global";
 import Escaper from "./Escaper";
