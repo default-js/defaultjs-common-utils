@@ -1,2 +1,1 @@
-import "./ObjectUtilsTest";
-import "./BrowserExportTest";
+import "./tests";

@@ -1,4 +1,4 @@
-import "../browser-index.js";
+import "../../browser.js";
 
 describe("Browser export Tests", function() {
 	

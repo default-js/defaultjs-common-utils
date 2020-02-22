@@ -1,8 +1,8 @@
 {
   "name": "@default-js/defaultjs-common-utils",
   "buildname": "defaultjs-common-utils",
-  "version": "0.4.0",
-  "description": "common utils for javascript",
+  "version": "0.5.0",
+  "description": "common utils for javascript. Extension at base javascript api (usefull extention like String.hashcode()).",
   "main": "./index.js",
   "scripts": {
     "build": "npm test && webpack --config webpack.prod.js && webpack --config webpack.dev.js",
