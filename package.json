@@ -1,16 +1,16 @@
 {
 	"name": "@default-js/defaultjs-common-utils",
 	"buildname": "defaultjs-common-utils",
-	"version": "0.6.0",
+	"version": "0.8.0",
 	"description": "common utils for javascript. Utils to get the global scope (browser, webworker & co.). Customizable string escaper. Utilitize for objects. Extension at base javascript api (usefull extention like String.hashcode()).","main":"./index.js",
 	"scripts": {
+		"build-only": "webpack --config webpack.prod.js && webpack --config webpack.dev.js",
 		"build": "npm test && webpack --config webpack.prod.js && webpack --config webpack.dev.js",
-		"dev-server": "webpack-dev-server --open --config webpack.dev-server.js && npm run karma:live",
-		"karma:dev": "karma start karma.dev.js",
-		"karma:live": "karma start karma.live-dev.js",
-		"karma:integration": "karma start karma.integration.js",
-		"test": "npm run karma:integration",
-		"dev:test": "npm run karma:dev"
+		"//dev:live": "webpack-dev-server --open --config webpack.dev-server.js && npm run test:live",
+		"dev:live": "webpack-dev-server --open --config webpack.dev-server.js",
+		"test:live": "karma start karma.live.js",
+		"test:integration": "karma start karma.integration.js",
+		"test": "karma start karma.test.js"
 	},
 	"keywords": [
 		"defaultjs",

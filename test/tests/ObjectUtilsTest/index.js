@@ -1,3 +1,3 @@
-import "./IsPojoTest";
-import "./AppendTest";
-import "./MergeTest";
+import "./IsPojoTest.js";
+import "./AppendTest.js";
+import "./MergeTest.js";

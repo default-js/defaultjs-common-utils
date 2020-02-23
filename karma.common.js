@@ -8,9 +8,21 @@ module.exports = {
 	// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 	frameworks : [ "jasmine" ],
 	// list of files / patterns to load in the browser
-	files : ["src/**/*.js", "test/index.js", "test/sites/**/*.html" ],
+	files : [
+		"src/**/*.js",
+		"test/index.js",
+		"test/sites/**/*.html",
+		{pattern: "test/data/**/*", included: false, served: true, watched: false, nocache: false},
+		{pattern: "test/templates/**/*", included: false, served: true, watched: true, nocache: false}	
+	],
+	proxies: {
+		"/data/": "/base/test/data/",
+		"/templates/": "/base/test/templates/"
+	},
 	// list of files / patterns to exclude
-	exclude : [],
+	exclude : [
+		//"node_modules/*"
+	],
 	// available preprocessors:
 	// https://npmjs.org/browse/keyword/karma-preprocessor
 	preprocessors : {
@@ -41,6 +53,6 @@ module.exports = {
 		clearContext : true
 	},
 	singleRun : false,
-	concurrency : Infinity
-// browserNoActivityTimeout: 60000
+	concurrency : Infinity,
+	browserNoActivityTimeout: 600000
 };

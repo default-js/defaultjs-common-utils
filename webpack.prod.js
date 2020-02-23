@@ -9,15 +9,15 @@ module.exports = merge(common,{
     output : {
 	    filename : project.buildname + '.min.js',
         path : path.resolve(__dirname, 'dist')
-    },
-    plugins : [ new ReplaceInFileWebpackPlugin([ 
-    	{
-        	dir : 'dist',
-        	test : [ /\.js$/ ],
-	        rules : [{
+    }, plugins : [ new ReplaceInFileWebpackPlugin([ 
+		{
+	        dir : 'dist',
+	        test : [ /\.js$/],
+	        rules : [ {
 	            search : /\$\{version\}/ig,
-	            replace : project.version
+	            replace :  project.version
 	        }]
-    	}]) 
-    ]
+		} 
+	]) 
+]
 });
