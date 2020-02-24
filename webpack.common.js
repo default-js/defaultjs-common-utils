@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry : './browser.js',
+    entry : './index.js',
     resolve : {
 		alias : { 
 			"@src" : path.resolve(__dirname + '/src'),

@@ -8,9 +8,10 @@ module.exports = merge(common, {
     mode : 'development',
     optimization : {
     	minimize : false,
-	    usedExports : true
+	    usedExports : false
     },
     devtool : 'inline-source-map',
+    watch: true,
     devServer : {
         contentBase : './WebContent',
         hot : true,

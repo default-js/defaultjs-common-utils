@@ -6,6 +6,11 @@ const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 
 module.exports = merge(common,{
     mode: 'production',
+    optimization : {
+    	minimize : true,
+	    usedExports : false
+    },
+    devtool : 'source-map', 
     output : {
 	    filename : project.buildname + '.min.js',
         path : path.resolve(__dirname, 'dist')
