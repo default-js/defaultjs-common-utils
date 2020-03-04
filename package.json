@@ -1,7 +1,7 @@
 {
 	"name": "@default-js/defaultjs-common-utils",
 	"buildname": "defaultjs-common-utils",
-	"version": "0.8.0",
+	"version": "0.9.0",
 	"description": "common utils for javascript. Utils to get the global scope (browser, webworker & co.). Customizable string escaper. Utilitize for objects. Extension at base javascript api (usefull extention like String.hashcode()).","main":"./index.js",
 	"scripts": {
 		"build-only": "webpack --config webpack.prod.js && webpack --config webpack.dev.js",

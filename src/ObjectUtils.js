@@ -8,11 +8,11 @@ import ObjectProperty from "./ObjectProperty.js";
  *  
  *  @return returns the changed object
  */
-export const append = function(aKey, aData, aObject){
-	if(typeof aData !== "undefined"){
+export const append = function(aKey, aData, aObject) {
+	if (typeof aData !== "undefined") {
 		const property = ObjectProperty.load(aObject, aKey, true)
 		property.append = aData;
-	}	
+	}
 	return aObject;
 };
 
@@ -23,7 +23,7 @@ export const append = function(aKey, aData, aObject){
  * 
  * @return boolean
  */
-export const isPojo = function(aObject){
+export const isPojo = function(aObject) {
 	return typeof aObject !== "undefined" && aObject != null && aObject.constructor.name === "Object"
 }
 
@@ -38,24 +38,63 @@ export const isPojo = function(aObject){
  * 
  * @return object returns the target object
  */
-export const merge = function(aTarget){	
-	for(let i = 1; i < arguments.length; i++){
+export const merge = function(aTarget) {
+	for (let i = 1; i < arguments.length; i++) {
 		const source = arguments[i];
 		Object.getOwnPropertyNames(source).forEach(aKey => {
-			if(isPojo(aTarget[aKey]))
+			if (isPojo(aTarget[aKey]))
 				merge(aTarget[aKey], source[aKey]);
 			else
 				aTarget[aKey] = source[aKey];
 		});
 	}
-	
+
 	return aTarget;
 }
 
 
 
+const buildPropertyFilter = function({ names, allowed }) {
+	return (name, value, context) => {
+		return names.includes(name) === allowed;
+	}
+};
+
+
+export const filter = function() {
+	const [data, propFilter, {deep = false, recursive = true, parents = []} = {}] = arguments;
+	const result = {};
+
+	for (name in data) {
+		const value = data[name];
+		const accept = propFilter(name, value, data);
+		if (accept && (!deep || value === null || value === undefined))
+			result[name] = value;
+		else if (accept && deep) {
+			const type = typeof value;
+			if (type !== "object"
+				|| value instanceof Array
+				|| value instanceof Map
+				|| value instanceof Set
+				|| value instanceof RegExp
+				|| parents.includes[value]
+				|| value == data)
+				result[name] = value;
+			else
+				result[name] = filter(value, propFilter, {deep, recursive, parents:  parents.concat(data)});
+		}
+
+	}
+
+	return result;
+};
+
+
+
 export default {
-	isPojo : isPojo,
-	append: append,
-	merge : merge
+	isPojo,
+	append,
+	merge,
+	filter,
+	buildPropertyFilter
 };
