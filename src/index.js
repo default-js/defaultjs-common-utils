@@ -2,9 +2,11 @@ import "./javascript";
 import ObjectUtils from "./ObjectUtils";
 import GLOBAL from "./Global";
 import Escaper from "./Escaper";
+import ValueHelper from "./ValueHelper";
 
 export default {
-	GLOBAL : GLOBAL,
-	ObjectUtils : ObjectUtils,
-	Escaper : Escaper
+	GLOBAL ,
+	ObjectUtils,
+	Escaper,
+	ValueHelper
 };
