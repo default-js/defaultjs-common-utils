@@ -50,5 +50,11 @@
 	"dependencies": {},
 	"directories": {
 		"test": "test"
-	}
+	},
+	"files": [
+		"index.js",
+		"src/**",
+		"LICENSE",
+		"README.md"
+	]
 }
