@@ -1,7 +1,7 @@
 {
 	"name": "@default-js/defaultjs-common-utils",
 	"buildname": "defaultjs-common-utils",
-	"version": "0.11.0",
+	"version": "0.12.0",
 	"description": "common utils for javascript. Utils to get the global scope (browser, webworker & co.). Customizable string escaper. Utilitize for objects. Extension at base javascript api (usefull extention like String.hashcode()).",
 	"main": "./index.js",
 	"scripts": {
@@ -34,9 +34,9 @@
 		"karma-webpack": "^4.0.2",
 		"puppeteer": "^2.1.1",
 		"replace-in-file-webpack-plugin": "^1.0.6",
-		"webpack": "^4.44.2",
+		"webpack": "^4.46.0",
 		"webpack-cli": "^3.3.12",
-		"webpack-dev-server": "^3.11.0",
+		"webpack-dev-server": "^3.11.2",
 		"webpack-merge": "^4.2.2"
 	},
 	"repository": {
@@ -47,7 +47,6 @@
 		"url": "https://github.com/default-js/defaultjs-common-utils/issues"
 	},
 	"homepage": "https://github.com/default-js/defaultjs-common-utils#readme",
-	"dependencies": {},
 	"directories": {
 		"test": "test"
 	},

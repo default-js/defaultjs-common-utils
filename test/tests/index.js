@@ -4,3 +4,4 @@ import "./BrowserExportTest";
 import "./EscaperTest";
 import "./ValueHelper";
 import "./javascript";
+import "./LazyPromise";
