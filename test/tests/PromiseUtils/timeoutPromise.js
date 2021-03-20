@@ -1,16 +1,16 @@
-import LazyPromise from "@src/LazyPromise";
+import {lazyPromise} from "@src/PromiseUtils";
 
-describe("LazyPromise", function() {
+describe("timeoutPromise", function() {
 	
 	beforeAll(async () => {});
 	
     it("instanceof Promise", async () => {
-		const promise = new LazyPromise();
+		const promise = timeoutPromise();
         expect(promise instanceof Promise).toBeTrue();
 	});
 	
 	it("resolve", async () => {
-		const promise = new LazyPromise();
+		const promise = lazyPromise();
         expect(promise.resolved).toBeFalse();
         promise.resolve("test");
         expect(promise.resolved).toBeTrue();
@@ -19,14 +19,26 @@ describe("LazyPromise", function() {
 	});
 
     it("error", async () => {
-		const promise = new LazyPromise();
-        expect(promise.resolved).toBeFalse();
+		const promise = lazyPromise();
+        expect(promise.resolved).toBeFalse();        
+        promise.catch(() =>{})
         promise.resolve(new Error("test"));
         expect(promise.resolved).toBeTrue();
         expect(promise.error).toBeTrue();
         expect(promise.value instanceof Error).toBeTrue();
 	});
-	
+
+    it("lazyPromise case 1", async () => {
+		const promise = lazyPromise();
+        let ok = false;
+        promise.then(async (value) => ok = value );
+        
+        expect(promise.resolved).toBeFalse();
+        promise.resolve(true);
+        await promise;
+        expect(promise.resolved).toBeTrue();   
+        expect(ok).toBeTrue();
+	});	
 
 	afterAll(async () => {});
 });

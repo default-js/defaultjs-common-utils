@@ -3,12 +3,12 @@ import ObjectUtils from "./ObjectUtils";
 import GLOBAL from "./Global";
 import Escaper from "./Escaper";
 import ValueHelper from "./ValueHelper";
-import LazyPromise from "./LazyPromise";
+import PromiseUtils from "./PromiseUtils";
 
 export default {
 	GLOBAL ,
 	ObjectUtils,
 	Escaper,
 	ValueHelper,
-	LazyPromise
+	PromiseUtils
 };
