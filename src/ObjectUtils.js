@@ -107,5 +107,5 @@ export default {
 	buildPropertyFilter,
 	defValue,
 	defGet,
-	defGetSet,
+	defGetSet
 };

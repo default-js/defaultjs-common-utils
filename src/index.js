@@ -4,11 +4,13 @@ import GLOBAL from "./Global";
 import Escaper from "./Escaper";
 import ValueHelper from "./ValueHelper";
 import PromiseUtils from "./PromiseUtils";
+import PrivateProperty from "./PrivateProperty";
 
 export default {
 	GLOBAL ,
 	ObjectUtils,
 	Escaper,
 	ValueHelper,
-	PromiseUtils
+	PromiseUtils,
+	PrivateProperty
 };

@@ -5,3 +5,4 @@ import "./EscaperTest";
 import "./ValueHelper";
 import "./javascript";
 import "./PromiseUtils";
+import "./PrivatePropertyTest";
