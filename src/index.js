@@ -5,6 +5,7 @@ import Escaper from "./Escaper";
 import ValueHelper from "./ValueHelper";
 import PromiseUtils from "./PromiseUtils";
 import PrivateProperty from "./PrivateProperty";
+import UUID from "./UUID";
 
 export default {
 	GLOBAL ,
@@ -12,5 +13,6 @@ export default {
 	Escaper,
 	ValueHelper,
 	PromiseUtils,
-	PrivateProperty
+	PrivateProperty,
+	UUID
 };

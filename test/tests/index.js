@@ -6,3 +6,4 @@ import "./ValueHelper";
 import "./javascript";
 import "./PromiseUtils";
 import "./PrivatePropertyTest";
+import "./UUIDTest";
