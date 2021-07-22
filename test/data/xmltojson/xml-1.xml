@@ -1,0 +1,19 @@
+<test>
+    <string>string</string>
+    <node-1 attribute-1="attribute-1" attribute-2="attribute-2">string</node-1>
+    <node-2 attribute-1="attribute-1" attribute-2="attribute-2">
+        <node-child attribute-1="attribute-1" attribute-2="attribute-2">node-child-1</node-child>
+        <node-child attribute-1="attribute-1" attribute-2="attribute-2">node-child-2</node-child>
+        <node-child attribute-1="attribute-1" attribute-2="attribute-2">node-child-3</node-child>
+        <node-child attribute-1="attribute-1" attribute-2="attribute-2">node-child-4</node-child>
+        <node-child attribute-1="attribute-1" attribute-2="attribute-2">node-child-5</node-child>
+        <node-child attribute-1="attribute-1" attribute-2="attribute-2">node-child-6</node-child>        
+        string
+    </node-2>
+    <string-list>string-1</string-list>
+    <string-list>string-2</string-list>
+    <string-list>string-3</string-list>
+    <string-list>string-4</string-list>
+    <string-list>string-5</string-list>
+    <node-3 @test="test"></node-3>
+</test>

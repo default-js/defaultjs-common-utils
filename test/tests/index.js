@@ -7,3 +7,4 @@ import "./javascript";
 import "./PromiseUtils";
 import "./PrivatePropertyTest";
 import "./UUIDTest";
+import "./XmlToJsonTest";
