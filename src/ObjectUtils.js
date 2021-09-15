@@ -33,21 +33,25 @@ export const isPojo = function (aObject) {
  *
  * sample: merge(target, source-1, source-2, ...source-n)
  *
- * @param aTarget:object the target object to merging into
- * @param aSources:object
+ * @param target:object the target object to merging into
+ * @param sources:object
  *
  * @return object returns the target object
  */
-export const merge = function (aTarget) {
-	for (let i = 1; i < arguments.length; i++) {
-		const source = arguments[i];
-		Object.getOwnPropertyNames(source).forEach((aKey) => {
-			if (isPojo(aTarget[aKey])) merge(aTarget[aKey], source[aKey]);
-			else aTarget[aKey] = source[aKey];
-		});
+export const merge = function (target, ...sources) {
+	if(!target)
+		target = {};
+
+	for (let source of sources) {
+		if (isPojo(source)) {
+			Object.getOwnPropertyNames(source).forEach((key) => {
+				if (isPojo(target[key])) merge(target[key], source[key]);
+				else target[key] = source[key];
+			});
+		}
 	}
 
-	return aTarget;
+	return target;
 };
 
 const buildPropertyFilter = function ({ names, allowed }) {
@@ -79,14 +83,14 @@ export const defValue = (o, name, value) => {
 		value,
 		writable: false,
 		configurable: false,
-		enumerable: false
+		enumerable: false,
 	});
 };
 export const defGet = (o, name, get) => {
 	Object.defineProperty(o, name, {
 		get,
 		configurable: false,
-		enumerable: false
+		enumerable: false,
 	});
 };
 
@@ -95,7 +99,7 @@ export const defGetSet = (o, name, get, set) => {
 		get,
 		set,
 		configurable: false,
-		enumerable: false
+		enumerable: false,
 	});
 };
 
@@ -107,5 +111,5 @@ export default {
 	buildPropertyFilter,
 	defValue,
 	defGet,
-	defGetSet
+	defGetSet,
 };

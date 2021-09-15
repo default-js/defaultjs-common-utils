@@ -11,7 +11,9 @@ describe("ObjectUtils merge Tests", function() {
 		const A = {
 			A1 : "A1",
 			A2 : "A2",
-			A3 : "A3"
+			A3 : "A3",
+			A4 : null,
+			A5 : undefined
 		};
 		
 		const B = {
@@ -29,6 +31,8 @@ describe("ObjectUtils merge Tests", function() {
 		expect(result.A1).toBe("A1");
 		expect(result.A2).toBe("A2");
 		expect(result.A3).toBe("A3");
+		expect(result.A4).toBe(null);
+		expect(result.A5).toBe(undefined);
 		
 		expect(result.B1).toBe("B1");
 		expect(result.B2).toBe("B2");
@@ -146,6 +150,20 @@ describe("ObjectUtils merge Tests", function() {
 		expect(result.B2).toBe("B2");
 		expect(result.B3).toBe("B3");		
 		done();
+	});
+
+	it("merge null into object A", async () => {
+		const A = {
+			A1 : "A1",
+			A2 : "A2",
+			A3 : "A3",
+			A4 : null,
+			A5 : undefined
+		};
+
+
+		const result = ObjectUtils.merge(A, null);
+		
 	});
 	
 	afterAll(function() {
