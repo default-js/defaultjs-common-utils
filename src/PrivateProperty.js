@@ -1,5 +1,5 @@
 const PRIVATE_PROPERTIES = new WeakMap();
-const privateStore = (obj) => {
+export const privateStore = (obj) => {
 	if(PRIVATE_PROPERTIES.has(obj))
 		return PRIVATE_PROPERTIES.get(obj);
 	
@@ -20,4 +20,13 @@ export const privateProperty = function(obj, name, value) {
 		throw new Error("Not allowed size of arguments!");
 };
 
-export default {privateProperty}
+export const privatePropertyAccessor = (varname) => {
+	return function(self, value){
+		if(arguments.length == 2)
+			privateProperty(self, varname, value);
+		else
+			return privateProperty(self, varname);
+	};
+};
+
+export default {privateProperty, privatePropertyAccessor, privateStore};

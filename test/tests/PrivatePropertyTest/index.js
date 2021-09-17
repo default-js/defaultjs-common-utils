@@ -1,1 +1,2 @@
 import "./PrivatePropertyTest";
+import "./PrivatePropertyAccessorTest";
