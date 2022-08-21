@@ -1,4 +1,4 @@
-import "@src/javascript/String.js";
+import "../../../src/javascript/String.js";
 
 describe("String extension tests:", function() {	
 	it("hashcode() -> int", () => {				

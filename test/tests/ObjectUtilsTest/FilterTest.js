@@ -1,4 +1,4 @@
-import ObjectUtils from "@src/ObjectUtils";
+import ObjectUtils from "../../../src/ObjectUtils";
 
 describe("ObjectUtils filter Tests", function() {
 	

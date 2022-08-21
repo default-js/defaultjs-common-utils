@@ -1,4 +1,4 @@
-import ValueHelper from "@src/ValueHelper";
+import ValueHelper from "../../../src/ValueHelper";
 
 describe("ValueHelper - ", function() {
 	

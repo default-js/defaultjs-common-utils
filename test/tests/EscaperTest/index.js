@@ -1,4 +1,4 @@
-import Escaper from "@src/Escaper";
+import Escaper from "../../../src/Escaper";
 
 describe("Escaper Tests", () => {
 	const ESCAPER = new Escaper([

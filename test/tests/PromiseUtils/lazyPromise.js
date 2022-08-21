@@ -1,4 +1,4 @@
-import {lazyPromise} from "@src/PromiseUtils";
+import {lazyPromise} from "../../../src/PromiseUtils";
 
 describe("lazyPromise", function() {
 	

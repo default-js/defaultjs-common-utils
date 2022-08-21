@@ -1,4 +1,4 @@
-import {uuid, UUID_SCHEMA} from "@src/UUID";
+import {uuid, UUID_SCHEMA} from "../../../src/UUID";
 
 describe("UUID - ", () => {
 	

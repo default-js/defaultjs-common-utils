@@ -1,3 +1,3 @@
-import pack from "./src";
+import { GLOBAL, ObjectUtils, Escaper, ValueHelper, PromiseUtils, PrivateProperty, UUID } from "./src";
 
-export default pack;
+export { GLOBAL, ObjectUtils, Escaper, ValueHelper, PromiseUtils, PrivateProperty, UUID };

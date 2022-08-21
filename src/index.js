@@ -7,7 +7,7 @@ import PromiseUtils from "./PromiseUtils";
 import PrivateProperty from "./PrivateProperty";
 import UUID from "./UUID";
 
-export default {
+export {
 	GLOBAL ,
 	ObjectUtils,
 	Escaper,

@@ -1,4 +1,4 @@
-import ObjectProperty from "@src/ObjectProperty.js";
+import ObjectProperty from "../../../src/ObjectProperty.js";
 
 describe("ObjectProperty load Tests", () => {
 	const testData = () => {
