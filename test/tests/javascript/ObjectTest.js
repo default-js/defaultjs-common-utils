@@ -37,12 +37,24 @@ describe("Object extension tests:", function () {
 		expect(a.equalPojo(b)).toBe(true);
 	});
 	it("equalPojo() - two simple objects", () => {
-		const a = { test: "value" };
-		const b = { test: "value" };
+		const a = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key2","value2"]]) };
+		const b = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key2","value2"]]) };
 		expect(a.equalPojo(b)).toBe(true);
 	});
 
+	it("equalPojo() - two simple objects -> not equal", () => {
+		const a = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key1","value1"]]) };
+		const b = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key2","value2"]]) };
+		expect(a.equalPojo(b)).toBe(false);
+	});
+
 	it("equalPojo() - two functions", () => {
+		const a = () => {};
+		const b = a;
+		expect(a.equalPojo(b)).toBe(true);
+	});
+
+	it("equalPojo() - with Array", () => {
 		const a = () => {};
 		const b = a;
 		expect(a.equalPojo(b)).toBe(true);

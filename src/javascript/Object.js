@@ -4,16 +4,43 @@
 	const equalArraySet = (a, b) => {
 		if (a.length !== b.length) return false;
 		const length = a.length;
-		for (let i = 0; i < length; i++) if (!Object.equalPojo(a[i], b[i])) return false;
+		for (let i = 0; i < length; i++)
+			if (!Object.equalPojo(a[i], b[i])) {
+				//console.log("false");
+				return false;
+			}
 
 		return true;
 	};
 
 	const equalMap = (a, b) => {
 		if (a.length !== b.length) return false;
-		const length = a.length;
-		for (const key of a.keys()) if (!Object.equalPojo(a.get(key), b.get(key))) return false;
+		for (const key of a.keys())
+			if (!Object.equalPojo(a.get(key), b.get(key))) {
+				//console.log("false");
+				return false;
+			}
 
+		return true;
+	};
+
+	const equalClasses = (a, b) => {
+		const clazzA = Object.getPrototypeOf(a);
+		const clazzB = Object.getPrototypeOf(b);
+		if (clazzA != clazzB) return false;
+
+		if (!clazzA) return true;
+
+		const propertiesA = Object.getOwnPropertyNames(clazzA);
+		const propertiesB = Object.getOwnPropertyNames(clazzB);
+
+		if (propertiesA.length !== propertiesB.length) return false;
+		for (const key of propertiesA) {
+			const valueA = a[key];
+			const valueB = b[key];
+
+			if (!Object.equalPojo(valueA, valueB)) return false;
+		}
 		return true;
 	};
 
@@ -58,7 +85,7 @@
 	Object.isObject =
 		Object.isObject ||
 		function (object) {
-			return object.constructor.name === "Object";
+			return typeof object === "object" && object.constructor.name === "Object";
 		};
 
 	/**
@@ -66,23 +93,22 @@
 	 */
 	Object.equalPojo =
 		Object.equalPojo ||
-		function (a, b) {
+		function (a, b) {		
 			const nullA = Object.isNullOrUndefined(a);
 			const nullB = Object.isNullOrUndefined(b);
 			if (nullA || nullB) return a === b;
+			
 			if (Object.isPrimitive(a) || Object.isPrimitive(b)) return a === b;
-			if (!Object.isObject(a) || !Object.isObject(b)) return a === b;
 
 			const typeA = typeof a;
 			const typeB = typeof b;
 			if (typeA != typeB) return false;
-			if (typeA === "function") return a === b;
-			if (a.constructor !== b.constructor) return false;
+			if (typeA === "function") return a === b;	
+			//if (a.constructor !== b.constructor) return false;
+			//if (a instanceof Array || a instanceof Set) return equalArraySet(a, b);
+			//if (a instanceof Map) return equalMap(a, b);
 
-			if (a instanceof Array || a instanceof Set) return equalArraySet(a, b);
-			if (a instanceof Map) return equalMap(a, b);
-
-			return equalObject(a, b);
+			return equalObject(a, b) && equalClasses(a, b);
 		};
 
 	Object.isPojo =

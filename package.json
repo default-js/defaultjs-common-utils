@@ -1,7 +1,7 @@
 {
 	"name": "@default-js/defaultjs-common-utils",
 	"buildname": "defaultjs-common-utils",
-	"version": "0.20.3",
+	"version": "0.20.4",
 	"description": "common utils for javascript. Utils to get the global scope (browser, webworker & co.). Customizable string escaper. Utilitize for objects. Extension at base javascript api (usefull extention like String.hashcode()).",
 	"main": "./index.js",
 	"scripts": {
