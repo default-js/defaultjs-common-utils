@@ -1,6 +1,4 @@
 (() => {
-	const proto = Object.prototype;
-
 	const equalArraySet = (a, b) => {
 		if (a.length !== b.length) return false;
 		const length = a.length;
@@ -114,37 +112,13 @@
 	Object.isPojo =
 		Object.isPojo ||
 		function (object) {
-			if (!object.isObject()) return false;
+			if (!Object.isObject(object)) return false;
 
 			for (const key in object) {
 				const value = object[key];
-				if (typeof value === "function" && proto[key] != value) return false;
+				if (typeof value === "function") return false;
 			}
 
 			return true;
-		};
-
-	proto.isPrimitive =
-		proto.isPrimitive ||
-		function () {
-			return Object.isPrimitive(this);
-		};
-
-	proto.isObject =
-		proto.isObject ||
-		function () {
-			return Object.isObject(this);
-		};
-
-	proto.isPojo =
-		proto.isPojo ||
-		function () {
-			return Object.isPojo(this);
-		};
-
-	proto.equalPojo =
-		proto.equalPojo ||
-		function (object) {
-			return Object.equalPojo(this, object);
 		};
 })();

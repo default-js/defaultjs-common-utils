@@ -1,7 +1,7 @@
 import "../../../src/javascript/Object.js";
 
 describe("Object extension tests:", function () {
-	it("isPrimitive()", () => {
+	it("Object.isPrimitive()", () => {
 		expect(Object.isPrimitive("test")).toBe(true);
 		expect(Object.isPrimitive(0)).toBe(true);
 		expect(Object.isPrimitive(0.1)).toBe(true);
@@ -15,48 +15,48 @@ describe("Object extension tests:", function () {
 		expect(Object.isPrimitive(new Date())).toBe(false);
 	});
 
-	it("isObject()", () => {
-		expect({ test: "value" }.isObject()).toBe(true);
-		expect({ test: "value", fn: () => {} }.isObject()).toBe(true);
-		expect(new Array().isObject()).toBe(false);
-		expect([].isObject()).toBe(false);
-		expect("".isObject()).toBe(false);
+	it("Object.isObject()", () => {
+		expect(Object.isObject({ test: "value" })).toBe(true);
+		expect(Object.isObject({ test: "value", fn: () => {} })).toBe(true);
+		expect(Object.isObject(new Array())).toBe(false);
+		expect(Object.isObject([])).toBe(false);
+		expect(Object.isObject("")).toBe(false);
 	});
 
-	it("isPojo()", () => {
-		expect({ test: "value" }.isPojo()).toBe(true);
-		expect({ test: "value", fn: () => {} }.isPojo()).toBe(false);
-		expect(new Array().isPojo()).toBe(false);
-		expect([].isPojo()).toBe(false);
-		expect("".isPojo()).toBe(false);
+	it("Object.isPojo()", () => {
+		expect(Object.isPojo({ test: "value" })).toBe(true);
+		expect(Object.isPojo({ test: "value", fn: () => {} })).toBe(false);
+		expect(Object.isPojo(new Array())).toBe(false);
+		expect(Object.isPojo([])).toBe(false);
+		expect(Object.isPojo("")).toBe(false);
 	});
 
-	it("equalPojo() - two empty objects", () => {
+	it("Object.equalPojo() - two empty objects", () => {
 		const a = {};
 		const b = {};
-		expect(a.equalPojo(b)).toBe(true);
+		expect(Object.equalPojo(a,b)).toBe(true);
 	});
-	it("equalPojo() - two simple objects", () => {
+	it("Object.equalPojo() - two simple objects", () => {
 		const a = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key2","value2"]]) };
 		const b = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key2","value2"]]) };
-		expect(a.equalPojo(b)).toBe(true);
+		expect(Object.equalPojo(a,b)).toBe(true);
 	});
 
-	it("equalPojo() - two simple objects -> not equal", () => {
+	it("Object.equalPojo() - two simple objects -> not equal", () => {
 		const a = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key1","value1"]]) };
 		const b = { test: "value", array: ["test", 1], hashset: new Set(["test", 1]), map : new Map([["key1","value1"],["key2","value2"]]) };
-		expect(a.equalPojo(b)).toBe(false);
+		expect(Object.equalPojo(a,b)).toBe(false);
 	});
 
-	it("equalPojo() - two functions", () => {
+	it("Object.equalPojo() - two functions", () => {
 		const a = () => {};
 		const b = a;
-		expect(a.equalPojo(b)).toBe(true);
+		expect(Object.equalPojo(a,b)).toBe(true);
 	});
 
-	it("equalPojo() - with Array", () => {
+	it("Object.equalPojo() - with Array", () => {
 		const a = () => {};
 		const b = a;
-		expect(a.equalPojo(b)).toBe(true);
+		expect(Object.equalPojo(a,b)).toBe(true);
 	});
 });
