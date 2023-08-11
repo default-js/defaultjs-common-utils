@@ -24,9 +24,6 @@ module.exports = (env, argv) => {
 			path: path.resolve(__dirname, target),
 		},
 		plugins: (() => {
-
-
-
             return  [
                 new ReplaceInFileWebpackPlugin([
                     {
