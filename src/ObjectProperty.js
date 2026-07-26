@@ -38,7 +38,7 @@ export default class ObjectProperty {
 	
 	static load(data, key, create=true) {
 		let context = data;
-		const keys = key.split("\.");
+		const keys = key.split(".");
 		let name = keys.shift().trim();
 		while(keys.length > 0){
 			if(!context[name]){

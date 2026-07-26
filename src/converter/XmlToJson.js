@@ -1,4 +1,4 @@
-const ATTRIBUTE_PRFIX = "@";
+const ATTRIBUTE_PREFIX = "@";
 const TEXTCONTENT = "@";
 
 const parse = (content) => {
@@ -20,7 +20,7 @@ const xmlToJson = (node) => {
 	let textContent = "";
 	// element do attributes
 	if (hasAttributes) {
-		for (let attribute of node.attributes) obj[`${ATTRIBUTE_PRFIX}${attribute.nodeName}`] = attribute.nodeValue;
+		for (let attribute of node.attributes) obj[`${ATTRIBUTE_PREFIX}${attribute.nodeName}`] = attribute.nodeValue;
 	}
 
 	for (let item of node.childNodes) {
@@ -28,15 +28,15 @@ const xmlToJson = (node) => {
 			const nodeName = item.nodeName;
 			if (typeof obj[nodeName] === "undefined") {
 				obj[nodeName] = xmlToJson(item);
-			} else {
-				if (typeof obj[nodeName].push === "undefined") {
-					var old = obj[nodeName];
-					obj[nodeName] = [];
-					obj[nodeName].push(old);
-				}
+			} else if (!Array.isArray(obj[nodeName])) {
+				const old = obj[nodeName];
+				obj[nodeName] = [];
+				obj[nodeName].push(old);
+			}
+			else{
 				obj[nodeName].push(xmlToJson(item));
 			}
-		} else if (item.nodeType == 3 || item.nodeType == 4) textContent = textContent + item.textContent;
+		} else if (item.nodeType == 3 || item.nodeType == 4) textContent = `${textContent}${item.textContent}`;
 	}
 
 	textContent = textContent.trim();

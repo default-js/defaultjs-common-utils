@@ -192,7 +192,6 @@ export const isObject = (object) => {
  *
  * @param {*} a
  * @param {*} b
- * @param {WeakMap} [seen] internal, tracks the pairs currently under comparison
  * @returns {boolean}
  *
  * @example
@@ -201,7 +200,16 @@ export const isObject = (object) => {
  * equalPojo(new Date(0), new Date(1));                 // false
  * equalPojo(new Error("x"), new Error("x"));           // false, compared by identity
  */
-export const equalPojo = (a, b, seen = new WeakMap()) => {
+export const equalPojo = (a, b) => internalEqualPojo(a, b);
+
+
+/**
+* @param {*} a
+ * @param {*} b
+ * @param {WeakMap} [seen] internal, tracks the pairs currently under comparison
+ * @returns {boolean}
+ */
+const internalEqualPojo = (a, b, seen = new WeakMap()) => {
 	if (isNullOrUndefined(a) || isNullOrUndefined(b)) return a === b;
 	if (a === b) return true;
 	if (isPrimitive(a) || isPrimitive(b)) return a === b;
@@ -223,7 +231,7 @@ export const equalPojo = (a, b, seen = new WeakMap()) => {
 	if (tag === "[object Map]") return equalMap(a, b, seen);
 	if (tag !== "[object Object]") return false;
 
-	return equalObject(a, b, seen);
+	return internalEqualPojo(a, b, seen);
 };
 
 /**
@@ -594,6 +602,7 @@ export const defGetSet = (o, name, get, set) => {
 export default {
 	isNullOrUndefined,
 	isObject,
+	isPrimitive,
 	equalPojo,
 	isPojo,
 	append,
