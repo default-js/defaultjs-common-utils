@@ -20,7 +20,7 @@ const equalArray = (a, b, seen) => {
 	if (a.length !== b.length) return false;
 
 	const length = a.length;
-	for (let i = 0; i < length; i++) if (!equalPojo(a[i], b[i], seen)) return false;
+	for (let i = 0; i < length; i++) if (!internalEqualPojo(a[i], b[i], seen)) return false;
 
 	return true;
 };
@@ -39,7 +39,7 @@ const equalSet = (a, b, seen) => {
 
 	const remaining = Array.from(b);
 	for (const entryA of a) {
-		const index = remaining.findIndex((entryB) => equalPojo(entryA, entryB, seen));
+		const index = remaining.findIndex((entryB) => internalEqualPojo(entryA, entryB, seen));
 		if (index < 0) return false;
 
 		remaining.splice(index, 1);
@@ -62,7 +62,7 @@ const equalMap = (a, b, seen) => {
 
 	const remaining = Array.from(b);
 	for (const [keyA, valueA] of a) {
-		const index = remaining.findIndex(([keyB, valueB]) => equalPojo(keyA, keyB, seen) && equalPojo(valueA, valueB, seen));
+		const index = remaining.findIndex(([keyB, valueB]) => internalEqualPojo(keyA, keyB, seen) && internalEqualPojo(valueA, valueB, seen));
 		if (index < 0) return false;
 
 		remaining.splice(index, 1);
@@ -90,7 +90,7 @@ const equalObject = (a, b, seen) => {
 	for (const key of propertiesA) {
 		// equal key counts alone would let {x:1, y:undefined} pass against {x:1, z:undefined}
 		if (!Object.prototype.hasOwnProperty.call(b, key)) return false;
-		if (!equalPojo(a[key], b[key], seen)) return false;
+		if (!internalEqualPojo(a[key], b[key], seen)) return false;
 	}
 
 	return true;
@@ -200,16 +200,16 @@ export const isObject = (object) => {
  * equalPojo(new Date(0), new Date(1));                 // false
  * equalPojo(new Error("x"), new Error("x"));           // false, compared by identity
  */
-export const equalPojo = (a, b) => internalEqualPojo(a, b);
+export const equalPojo = (a, b) => internalEqualPojo(a, b, new WeakMap());
 
 
 /**
 * @param {*} a
  * @param {*} b
- * @param {WeakMap} [seen] internal, tracks the pairs currently under comparison
+ * @param {WeakMap} seen internal, tracks the pairs currently under comparison
  * @returns {boolean}
  */
-const internalEqualPojo = (a, b, seen = new WeakMap()) => {
+const internalEqualPojo = (a, b, seen) => {
 	if (isNullOrUndefined(a) || isNullOrUndefined(b)) return a === b;
 	if (a === b) return true;
 	if (isPrimitive(a) || isPrimitive(b)) return a === b;
@@ -221,17 +221,13 @@ const internalEqualPojo = (a, b, seen = new WeakMap()) => {
 	if (isComparing(seen, a, b)) return true;
 	rememberComparing(seen, a, b);
 
-	const tag = Object.prototype.toString.call(a);
-	if (tag !== Object.prototype.toString.call(b)) return false;
-
-	if (tag === "[object Date]") return Object.is(a.getTime(), b.getTime());
-	if (tag === "[object RegExp]") return a.source === b.source && a.flags === b.flags;
-	if (tag === "[object Array]") return equalArray(a, b, seen);
-	if (tag === "[object Set]") return equalSet(a, b, seen);
-	if (tag === "[object Map]") return equalMap(a, b, seen);
-	if (tag !== "[object Object]") return false;
-
-	return internalEqualPojo(a, b, seen);
+	if(a instanceof Date) return  b instanceof Date ? Object.is(a.getTime(), b.getTime()) : false;
+	else if(a instanceof RegExp) return b instanceof RegExp ? (a.source === b.source && a.flags === b.flags) : false;
+	else if(a instanceof Array) return b instanceof Array ? equalArray(a, b, seen) : false;
+	else if(a instanceof Set) return b instanceof Set ? equalSet(a, b, seen) : false;
+	else if(a instanceof Map) return b instanceof Map ? equalMap(a, b, seen) : false;
+	else if (Object.prototype.toString.call(a) !== "[object Object]") return false;	
+	else return equalObject(a, b, seen);
 };
 
 /**

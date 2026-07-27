@@ -1,9 +1,11 @@
 //the solution is found here: https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+
+import GLOBAL from "./Global.js";
 export const UUID_SCHEMA = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
 
 export const uuid = () => {
 	const buf = new Uint32Array(4);
-	window.crypto.getRandomValues(buf);
+	GLOBAL.crypto.getRandomValues(buf);
 	let idx = -1;
 	return UUID_SCHEMA.replace(/[xy]/g, (c) => {
 		idx++;

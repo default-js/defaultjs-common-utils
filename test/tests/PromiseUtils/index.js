@@ -1,1 +1,2 @@
 import "./lazyPromise";
+import "./timeoutPromise";
