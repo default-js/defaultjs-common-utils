@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "node16",
+		"moduleResolution": "node16",
+		"lib": ["ES2022", "DOM"],
+		"strict": true,
+		"noEmit": true,
+		"allowJs": false,
+		"skipLibCheck": false,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["test/types/**/*.ts", "src/**/*.d.ts", "index.d.ts", "browser.d.ts"]
+}

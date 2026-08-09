@@ -29,15 +29,16 @@
 	},
 	"scripts": {
 		"generate:version": "node scripts/generate-version.js",
+		"typecheck": "tsc",
 		"prebuild:dev": "npm run generate:version",
 		"build:dev": "webpack --mode=development --progress",
 		"prebuild:prod": "npm run generate:version",
 		"build:prod": "webpack --mode=production --progress",
-		"build": "npm run test && npm run build:dev && npm run build:prod",
+		"build": "npm run generate:version && npm run test && npm run build:dev && npm run build:prod",
 		"predev": "npm run generate:version",
 		"dev": "webpack serve --mode=development --progress",
 		"test:live": "karma start karma.conf.cjs --auto-watch",
-		"test": "karma start karma.conf.cjs --no-auto-watch",
+		"test": "npm run typecheck && karma start karma.conf.cjs --no-auto-watch",
 		"prepublishOnly": "npm run build"
 	},
 	"keywords": [
