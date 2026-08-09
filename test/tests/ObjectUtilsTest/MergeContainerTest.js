@@ -1,4 +1,4 @@
-import ObjectUtils from "../../../src/ObjectUtils";
+import ObjectUtils from "../../../src/ObjectUtils.js";
 
 /**
  * merge steps into simple objects only. An Array, Set or Map is a value like any other and gets

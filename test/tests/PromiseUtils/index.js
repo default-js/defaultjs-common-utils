@@ -1,2 +1,2 @@
-import "./lazyPromise";
-import "./timeoutPromise";
+import "./lazyPromise.js";
+import "./timeoutPromise.js";

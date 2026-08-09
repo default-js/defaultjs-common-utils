@@ -1,4 +1,4 @@
-import {privatePropertyAccessor} from "../../../src/PrivateProperty";
+import {privatePropertyAccessor} from "../../../src/PrivateProperty.js";
 
 describe("ObjectUtils privatePropertyAccessor Tests", () => {
 	

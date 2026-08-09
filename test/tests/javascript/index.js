@@ -1,2 +1,2 @@
-import "./StringTest";
-import "./MapTest";
+import "./StringTest.js";
+import "./MapTest.js";

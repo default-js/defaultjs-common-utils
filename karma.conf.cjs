@@ -1,5 +1,5 @@
 const path = require("path");
-const webpack = require("./webpack.config.js");
+const webpack = require("./webpack.config.cjs");
 const puppeteer = require("puppeteer");
 process.env.CHROME_BIN = puppeteer.executablePath();
 
@@ -30,7 +30,8 @@ module.exports = function (config) {
 		// available preprocessors:
 		// https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			"src/**/*.js": ["webpack", "coverage"],
+			// src is not served on its own - it arrives bundled inside test/index.js, instrumented by
+			// babel-plugin-istanbul. The coverage reporter picks the result up from window.__coverage__.
 			"test/index.js": ["webpack", "sourcemap"],
 			//"test/**/*Test.js" : [ "webpack", "sourcemap"],
 			"test/sites/**/*.html": ["html2js"],
@@ -65,6 +66,6 @@ module.exports = function (config) {
 		},
 		browserDisconnectTimeout: 60000,
 		browserNoActivityTimeout: 60000,
-		webpack: webpack({}, { mode: "development", target: "target" })
+		webpack: webpack({ coverage: true }, { mode: "development", target: "target" })
 	});
 };

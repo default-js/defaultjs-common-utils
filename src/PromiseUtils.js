@@ -1,4 +1,18 @@
-import {defValue, defGet} from "./ObjectUtils"
+/**
+ * Two ways of building a promise that something outside of it settles.
+ *
+ * {@link timeoutPromise} runs a function once a timeout has passed and lets the whole chain behind
+ * it be canceled. {@link lazyPromise} hands out a promise together with its resolve and reject, for
+ * the cases where the settling is driven from somewhere else - a framework callback, an event,
+ * foreign code - and packing all of that into the executor would only blow the code up or is not
+ * possible at all.
+ *
+ * The two carry different state on purpose: a timeoutPromise reports its cancellation through a
+ * rejection and an AbortSignal, a lazyPromise reports its outcome through resolved, error and value.
+ *
+ * @module PromiseUtils
+ */
+import { defValue, defGet } from "./ObjectUtils.js";
 
 /**
  * The reason an aborted operation rejects with. A DOMException named AbortError is what
@@ -10,9 +24,9 @@ import {defValue, defGet} from "./ObjectUtils"
 const abortError = () => {
 	if (typeof DOMException !== "undefined") return new DOMException("The operation was aborted.", "AbortError");
 
-	const error = new Error("The operation was aborted.");
-	error.name = "AbortError";
-	return error;
+	/* istanbul ignore next - every browser the suite runs in brings DOMException, so this line only
+	   stands in for environments the test run cannot reach */
+	return Object.assign(new Error("The operation was aborted."), { name: "AbortError" });
 };
 
 /**
@@ -95,7 +109,7 @@ export const timeoutPromise = (fn, ms) => {
 		const onResolve = settle(resolve);
 		const onReject = settle(reject);
 
-		signal.addEventListener("abort", () => onReject(abortReason(signal)), {once: true});
+		signal.addEventListener("abort", () => onReject(abortReason(signal)), { once: true });
 
 		timeout = setTimeout(() => {
 			timeout = null;
@@ -114,42 +128,80 @@ export const timeoutPromise = (fn, ms) => {
 	});
 };
 
-
+/**
+ * Builds a promise together with the two functions settling it.
+ *
+ * The point is to have the promise and its resolve and reject apart from each other: whatever
+ * settles it does not have to sit inside the executor. That keeps a promise usable where the
+ * settling is driven by a framework callback, an event or any other foreign code the executor has no
+ * way of reaching.
+ *
+ * The promise carries three read only properties:
+ *
+ * - resolved says the promise has been settled. It says nothing about the outcome - it is true for a
+ *   failure just as well.
+ * - error tells the two apart.
+ * - value holds whatever the promise was settled with: the result after a resolve, the reason after
+ *   a reject. error is what decides how to read it.
+ *
+ * An Error always leads to a rejection, in both directions - handing one to resolve rejects the
+ * promise just like reject would. A reason that is no Error is wrapped into one, and a reject
+ * without a reason gets an Error of its own, so there is always a message to read.
+ *
+ * Both functions settle the promise once. A second call throws instead of settling again, so the
+ * three properties can never end up disagreeing with the promise.
+ *
+ * @returns {Promise} a promise carrying resolve(), reject(), value, error and resolved
+ * @throws {Error} from resolve or reject when the promise has already been settled
+ *
+ * @example
+ * const promise = lazyPromise();
+ * element.addEventListener("load", () => promise.resolve(element), {once : true});
+ * await promise;
+ *
+ * @example
+ * const promise = lazyPromise();
+ * promise.reject("no connection");   // rejects with an Error carrying that message
+ * promise.resolved;                  // true - settled, not successful
+ * promise.error;                     // true
+ * promise.value;                     // "no connection"
+ */
 export const lazyPromise = () => {
-		let promiseResolve = null;
-		let promiseError = null;
+	let promiseResolve = null;
+	let promiseReject = null;
+	let resolved = false;
+	let error = false;
+	let value = undefined;
 
-		const promise = new Promise((r, e) => {
-			promiseResolve = r;
-			promiseError = e;
-		});
+	const promise = new Promise((r, e) => {
+		promiseResolve = r;
+		promiseReject = (anError) => e(anError instanceof Error ? anError : new Error(anError == null ? "Promise rejected with no reason" : anError));
+	});
 
-		let resolved = false;
-		let error = false;
-		let value = undefined;
-
-		defValue(promise, "resolve", (result) => {
-			value = result;
-			resolved = true;
-			if (value instanceof Error) {
-				error = true;
-				promiseError(value);
-			} else promiseResolve(value);
-		});
-		defValue(promise, "reject", (result) => {
-			resolved = true;
+	defValue(promise, "resolve", (result) => {
+		if (resolved) throw new Error("Promise already resolved!");
+		resolved = true;
+		value = result;
+		if (value instanceof Error) {
 			error = true;
-			promiseError(value);
-		});
+			promiseReject(value);
+		} else promiseResolve(value);
+	});
+	defValue(promise, "reject", (result) => {
+		if (resolved) throw new Error("Promise already resolved!");
+		resolved = true;
+		value = result;
+		error = true;
+		promiseReject(result);
+	});
 
-		defGet(promise, "value", () => value);
-		defGet(promise, "error", () => error);
-		defGet(promise, "resolved", () => resolved);
-		
+	defGet(promise, "value", () => value);
+	defGet(promise, "error", () => error);
+	defGet(promise, "resolved", () => resolved);
 
-		return promise;
+	return promise;
 };
 export default {
 	lazyPromise,
-	timeoutPromise
-}
+	timeoutPromise,
+};

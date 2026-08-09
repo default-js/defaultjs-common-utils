@@ -1,4 +1,4 @@
-import {timeoutPromise} from "../../../src/PromiseUtils";
+import {timeoutPromise} from "../../../src/PromiseUtils.js";
 
 const TIMEOUT = 20;
 // long enough that the timeout never fires on its own during a cancel test

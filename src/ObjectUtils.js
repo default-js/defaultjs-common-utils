@@ -129,6 +129,9 @@ const rememberComparing = (seen, a, b) => {
 /**
  * Checks whether a value is null or undefined.
  *
+ * ValueHelper.noValue answers the same question. Both are kept on purpose, so ValueHelper stays free
+ * of a dependency on this module - see the note there.
+ *
  * @param {*} object the value to be testing
  * @returns {boolean}
  */
@@ -345,12 +348,16 @@ const assignableKeys = (source) => {
 };
 
 /**
- * Merges objects into a target object - a recursive Object.assign. It only merges simple objects
- * and sub objects. Every other value is replaced by the value from the source object.
+ * Merges objects into a target object - a recursive Object.assign. It steps into objects and sub
+ * objects. Every other value is replaced by the value from the source object.
  *
  * Like Object.assign it copies own enumerable properties - string and symbol keys alike -, ignores
  * null and undefined sources and returns the target. Unlike Object.assign it steps into a property
- * when target and source both hold a simple object, instead of replacing it.
+ * when target and source both hold an object, instead of replacing it.
+ *
+ * A class instance counts as an object here and is merged property by property just like a simple
+ * one. The target keeps its own prototype, only the properties of the source are applied to it - a
+ * merge never turns the target into an instance of the class of the source.
  *
  * An Array, Set, Map, Date or RegExp is always replaced as a whole, never merged entry by entry.
  * That already applies when only one of both sides holds one. The result therefore carries the
@@ -374,6 +381,7 @@ const assignableKeys = (source) => {
  * merge({a : 1}, {b : 2});                          // {a : 1, b : 2}
  * merge({a : {x : 1}}, {a : {y : 2}});              // {a : {x : 1, y : 2}}
  * merge({a : [1, 2, 3]}, {a : [9]});                // {a : [9]}, replaced as a whole
+ * merge({a : new Foo(1)}, {a : new Bar(2)});        // a stays a Foo, carrying the properties of both
  * merge({}, source1, source2, source3);
  */
 export const merge = (target, ...sources) => {

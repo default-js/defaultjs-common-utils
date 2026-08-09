@@ -1,4 +1,4 @@
-import {privateProperty} from "../../../src/PrivateProperty";
+import {privateProperty} from "../../../src/PrivateProperty.js";
 
 describe("ObjectUtils privateProperty Tests", () => {
 	

@@ -60,10 +60,11 @@ describe("ObjectProperty load Tests", () => {
 	
 	it("- key2.key24 -> value: null", () => {
 		const data = testData();
-		const property = ObjectProperty.load(data, "key2.key24");		
+		const property = ObjectProperty.load(data, "key2.key24");
 		expect(property).toBeDefined();
 		expect(property.key).toBe("key24");
-		expect(property.hasValue).toBe(false);
+		// null is a value - only undefined means there is none
+		expect(property.hasValue).toBe(true);
 		expect(property.value).toBe(null);
 	});
 	
