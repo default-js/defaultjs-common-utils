@@ -1,2 +1,2 @@
-import "./PrivatePropertyTest";
-import "./PrivatePropertyAccessorTest";
+import "./PrivatePropertyTest.js";
+import "./PrivatePropertyAccessorTest.js";

@@ -1,4 +1,4 @@
-import ObjectUtils from "../../../src/ObjectUtils";
+import ObjectUtils from "../../../src/ObjectUtils.js";
 
 describe("ObjectUtils merge Tests", function() {
 	
@@ -163,9 +163,77 @@ describe("ObjectUtils merge Tests", function() {
 
 
 		const result = ObjectUtils.merge(A, null);
-		
+
 	});
-	
+
+	it("merge does not pollute the prototype", function(){
+		const source = JSON.parse('{"__proto__":{"pwned":"yes"}}');
+		const result = ObjectUtils.merge({}, source);
+
+		expect({}.pwned).toBeUndefined();
+		expect(result.pwned).toBeUndefined();
+		expect(Object.getPrototypeOf(result)).toBe(Object.prototype);
+	});
+
+	it("merge steps into a sub object instead of replacing it", function(){
+		const A = {sub : {A1 : "A1", A2 : "A2"}};
+		const B = {sub : {A2 : "B2", B1 : "B1"}};
+
+		const result = ObjectUtils.merge(A, B);
+
+		expect(result.sub.A1).toBe("A1");
+		expect(result.sub.A2).toBe("B2");
+		expect(result.sub.B1).toBe("B1");
+	});
+
+	it("merge replaces a sub object by a plain value", function(){
+		const A = {sub : {A1 : "A1"}};
+		const B = {sub : "text"};
+
+		const result = ObjectUtils.merge(A, B);
+
+		expect(result.sub).toBe("text");
+	});
+
+	it("merge replaces arrays instead of merging them", function(){
+		const A = {list : [1, 2, 3]};
+		const B = {list : [9]};
+
+		const result = ObjectUtils.merge(A, B);
+
+		expect(result.list).toEqual([9]);
+	});
+
+	it("merge keeps sources carrying functions", function(){
+		const fn = () => {};
+		const result = ObjectUtils.merge({}, {name : "x", callback : fn});
+
+		expect(result.name).toBe("x");
+		expect(result.callback).toBe(fn);
+	});
+
+	it("merge copies own enumerable properties only", function(){
+		const symbol = Symbol("s");
+		const source = {visible : 1, [symbol] : 2};
+		Object.defineProperty(source, "hidden", {value : 3, enumerable : false});
+
+		const result = ObjectUtils.merge({}, source);
+
+		expect(result.visible).toBe(1);
+		expect(result[symbol]).toBe(2);
+		expect(result.hidden).toBeUndefined();
+	});
+
+	it("merge skips a property holding a symbol", function(){
+		const symbol = Symbol("s");
+
+		// symbol on the source side is not taken over
+		expect(ObjectUtils.merge({}, {value : symbol}).value).toBeUndefined();
+
+		// symbol on the target side is not overwritten
+		expect(ObjectUtils.merge({value : symbol}, {value : 99}).value).toBe(symbol);
+	});
+
 	afterAll(function() {
 	});
 });

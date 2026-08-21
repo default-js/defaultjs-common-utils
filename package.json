@@ -1,16 +1,45 @@
 {
 	"name": "@default-js/defaultjs-common-utils",
 	"buildname": "defaultjs-common-utils",
-	"version": "0.21.6",
-	"description": "common utils for javascript. Utils to get the global scope (browser, webworker & co.). Customizable string escaper. Utilitize for objects. Extension at base javascript api (usefull extention like String.hashcode()).",
+	"version": "1.0.0",
+	"description": "Common utils for javascript. Access to the global scope (browser, web worker and node). A customizable string escaper. Utilities for objects. Extensions to the base javascript api, such as String.hashcode().",
+	"type": "module",
 	"main": "./index.js",
+	"types": "./index.d.ts",
+	"exports": {
+		".": {
+			"types": "./index.d.ts",
+			"default": "./index.js"
+		},
+		"./browser": {
+			"types": "./browser.d.ts",
+			"default": "./browser.js"
+		},
+		"./src/*": "./src/*",
+		"./dist/*": "./dist/*",
+		"./package.json": "./package.json"
+	},
+	"sideEffects": [
+		"./browser.js",
+		"./src/index.js",
+		"./src/javascript/*.js"
+	],
+	"engines": {
+		"node": ">=16"
+	},
 	"scripts": {
+		"generate:version": "node scripts/generate-version.js",
+		"typecheck": "tsc",
+		"prebuild:dev": "npm run generate:version",
 		"build:dev": "webpack --mode=development --progress",
+		"prebuild:prod": "npm run generate:version",
 		"build:prod": "webpack --mode=production --progress",
-		"build": "npm run test && npm run build:dev && npm run build:prod",
+		"build": "npm run generate:version && npm run test && npm run build:dev && npm run build:prod",
+		"predev": "npm run generate:version",
 		"dev": "webpack serve --mode=development --progress",
-		"test:live": "karma start --auto-watch",
-		"test": "karma start --no-auto-watch"
+		"test:live": "karma start karma.conf.cjs --auto-watch",
+		"test": "npm run typecheck && karma start karma.conf.cjs --no-auto-watch",
+		"prepublishOnly": "npm run build"
 	},
 	"keywords": [
 		"defaultjs",
@@ -22,6 +51,9 @@
 	"author": "Frank Schüler",
 	"license": "MIT",
 	"devDependencies": {
+		"@babel/core": "^7.29.7",
+		"babel-loader": "^10.1.1",
+		"babel-plugin-istanbul": "^8.0.0",
 		"clean-webpack-plugin": "^1.0.1",
 		"copy-webpack-plugin": "^11.0.0",
 		"http-server": "^14.1.0",
@@ -35,8 +67,8 @@
 		"karma-sourcemap-loader": "^0.3.8",
 		"karma-webpack": "^5.0.0",
 		"puppeteer": "^16.1.1",
-		"replace-in-file-webpack-plugin": "^1.0.6",
 		"terser-webpack-plugin": "^5.3.9",
+		"typescript": "^7.0.2",
 		"webpack": "^5.74.0",
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.7.4"
@@ -49,13 +81,13 @@
 		"url": "https://github.com/default-js/defaultjs-common-utils/issues"
 	},
 	"homepage": "https://github.com/default-js/defaultjs-common-utils#readme",
-	"directories": {
-		"test": "test"
-	},
 	"files": [
 		"index.js",
+		"index.d.ts",
 		"browser.js",
+		"browser.d.ts",
 		"src/**",
+		"dist/**",
 		"LICENSE",
 		"README.md"
 	]

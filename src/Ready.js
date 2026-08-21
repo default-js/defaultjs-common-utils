@@ -1,23 +1,13 @@
-export default () => {
-	let resolve, reject = null;
-	const result = new Promise((r, e) => {
-		resolve = r;
-		reject = e;
-	});
+/**
+ * Ready is {@link module:PromiseUtils.lazyPromise} and only kept as an entry point of its own, so an
+ * existing import keeps working. Use lazyPromise directly in new code.
+ *
+ * Against the implementation Ready had before, resolve and reject now take a value and a reason, an
+ * Error handed to resolve rejects, the properties are read only, and settling twice throws.
+ *
+ * @module Ready
+ * @deprecated use {@link module:PromiseUtils.lazyPromise}
+ */
+import {lazyPromise} from "./PromiseUtils.js";
 
-	result.resolved = false;
-	result.error = false;
-	result.resolve = () => {		
-		result.resolved = true;
-		result.resolve = () => {};
-		resolve();
-	};
-	result.reject = () => {
-		result.resolved = true;
-		result.error = true;
-		result.reject = () => {};
-		reject();
-	};
-
-	return result;
-};
+export default lazyPromise;
